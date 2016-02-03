@@ -1,7 +1,7 @@
 /*! 
- * angular-loading-bar v0.8.0
+ * angular-loading-bar v0.8.1
  * https://chieffancypants.github.io/angular-loading-bar
- * Copyright (c) 2015 Wes Cruver
+ * Copyright (c) 2016 Wes Cruver
  * License: MIT
  */
 /*
@@ -201,6 +201,7 @@ angular.module('cfp.loadingBar', [])
         }
 
         var $parent = $document.find($parentSelector).eq(0);
+        if (!$parent.length) { $parent = $document.find('body').eq(0); }
         $timeout.cancel(completeTimeout);
 
         // do not continually broadcast the started event:

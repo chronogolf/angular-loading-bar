@@ -79,3 +79,19 @@ describe 'loadingBarInterceptor Service - config options', ->
       expect(cfpLoadingBar.status()).toBeGreaterThan .5
       cfpLoadingBar.complete()
       $timeout.flush()
+
+  it 'should fallback loadingBar to body if parentSelector is not found', ->
+    module 'chieffancypants.loadingBar', (cfpLoadingBarProvider) ->
+      cfpLoadingBarProvider.parentSelector = '.foo'
+      return
+    inject ($timeout, $document, cfpLoadingBar) ->
+      parent = $document[0].querySelector(cfpLoadingBar.parentSelector)
+      body = $document[0].querySelector('body')
+      expect(parent).toBeFalsy()
+      cfpLoadingBar.start()
+      bar = angular.element(body.querySelector '#loading-bar')
+      spinner = angular.element(body.querySelector '#loading-bar-spinner')
+      expect(bar.length).toBe 1
+      expect(spinner.length).toBe 1
+      cfpLoadingBar.complete()
+      $timeout.flush()
